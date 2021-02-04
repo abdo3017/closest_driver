@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "772743861878",
+    "firebase_url": "https://abdo-f4428.firebaseio.com",
+    "project_id": "abdo-f4428",
+    "storage_bucket": "abdo-f4428.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772743861878:android:164b2cf783f82014873157",
+        "android_client_info": {
+          "package_name": "com.example.driverapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "772743861878-tjcfbhvogm0653no25cqfd1va45ff3am.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAECrrWnDZA_-XW0UTqyV947E9Q1_JTcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "772743861878-tjcfbhvogm0653no25cqfd1va45ff3am.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
