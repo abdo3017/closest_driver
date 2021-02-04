@@ -17,4 +17,9 @@ constructor(
         withContext(Dispatchers.IO) {
             firestoreDB.collection("Source").get().await()
         }
+
+    suspend fun getDrivers(): QuerySnapshot =
+        withContext(Dispatchers.IO) {
+            firestoreDB.collection("Drivers").get().await()
+        }
 }

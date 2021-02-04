@@ -1,4 +1,4 @@
-package com.example.driverapp.ui
+package com.example.driverapp.ui.search
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData

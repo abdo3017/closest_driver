@@ -1,9 +1,15 @@
 package com.example.driverapp.ui.search
 
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.TextView
 import com.example.driverapp.databinding.ItemSourceListBinding
 import com.example.driverapp.datasource.models.UserLocation
 import com.example.driverapp.ui.base.BaseRecyclerViewAdapter
@@ -18,6 +24,7 @@ class SearchSourceAdapter(
     private val itemClickListener: ItemClickListener,
 ) :
     BaseRecyclerViewAdapter<UserLocation, ItemSourceListBinding>(items), Filterable {
+    var searchString = ""
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return ProductsViewHolder(
             ItemSourceListBinding.inflate(
@@ -36,6 +43,16 @@ class SearchSourceAdapter(
             binding.item = getItem(position)
             binding.position = position
             binding.listener = itemClickListener
+            if (searchString.isNotEmpty()) {
+                val span: Spannable = SpannableString(getItem(position).name)
+                span.setSpan(
+                    ForegroundColorSpan(Color.BLACK),
+                    0,
+                    searchString.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                binding.tvName.setText(span, TextView.BufferType.SPANNABLE)
+            }
             binding.executePendingBindings()
         }
 
@@ -45,12 +62,14 @@ class SearchSourceAdapter(
 
     private val productFilter = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
+            searchString = constraint.toString()
             val results = FilterResults()
             if (constraint != null && constraint.isNotEmpty()) {
+
                 val filterPattern = constraint.toString().toLowerCase().trim()
                 results.values =
                     itemsSearch.filterNot {
-                        !it.name!!.toLowerCase().trim().contains(filterPattern)
+                        !it.name!!.toLowerCase().trim().startsWith(filterPattern)
                     }
                 return results
             }
@@ -59,9 +78,11 @@ class SearchSourceAdapter(
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            getItems().clear()
-            getItems().addAll(results!!.values as List<UserLocation>)
-            notifyDataSetChanged()
+            //getItems().clear()
+            Log.d("trtrtrtrt", (results!!.values as List<UserLocation>).size.toString())
+            setItems(results.values as List<UserLocation>)
+//            getItems().addAll(results!!.values as List<UserLocation>)
+//            notifyDataSetChanged()
         }
 
     }

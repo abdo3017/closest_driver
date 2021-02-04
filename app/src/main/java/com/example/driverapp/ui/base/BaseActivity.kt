@@ -27,4 +27,5 @@ abstract class BaseActivity<viewDataBinding : ViewDataBinding> : AppCompatActivi
         return mViewDataBinding
     }
 
+
 }

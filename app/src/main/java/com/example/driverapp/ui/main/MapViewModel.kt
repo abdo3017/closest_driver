@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.driverapp.datasource.models.PlaceDetailsResponse
+import com.example.driverapp.datasource.models.UserLocation
 import com.example.driverapp.datasource.repository.APIRepository
 import com.example.driverapp.datasource.repository.FireBaseRepository
 import com.example.driverapp.utils.ResponseStatusCallbacks
@@ -23,6 +24,10 @@ constructor(
     private val fireBaseRepository: FireBaseRepository,
     private val apiRepository: APIRepository
 ) : ViewModel() {
+    private val _dataStateDrivers: MutableLiveData<ResponseStatusCallbacks<List<UserLocation>>> =
+        MutableLiveData()
+    val dataStateUserDrivers: LiveData<ResponseStatusCallbacks<List<UserLocation>>>
+        get() = _dataStateDrivers
 
     private var _dataStatePlaceDetailsResponse =
         MutableLiveData<ResponseStatusCallbacks<PlaceDetailsResponse>>()
@@ -34,6 +39,14 @@ constructor(
         viewModelScope.launch {
             apiRepository.getPlaceDetails(placeId).onEach {
                 _dataStatePlaceDetailsResponse.value = it
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun getDrivers() {
+        viewModelScope.launch {
+            fireBaseRepository.getDrivers().onEach {
+                _dataStateDrivers.value = it
             }.launchIn(viewModelScope)
         }
     }

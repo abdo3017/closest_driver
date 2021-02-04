@@ -15,7 +15,7 @@ constructor(
     suspend fun getAutoCompletePlaces(
         input: String
     ): PlaceAutoCompleteResponse = withContext(IO) {
-        apiService.getAutoCompletePlacesAsync(input = input).await()
+        apiService.getAutoCompletePlacesAsync(input = input)//.await()
     }
 
     suspend fun getPlaceDetails(

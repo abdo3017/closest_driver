@@ -19,7 +19,15 @@ constructor(
 ) {
     suspend fun getSourceLocations(): Flow<ResponseStatusCallbacks<List<UserLocation>>> = flow {
         emit(ResponseStatusCallbacks.loading(data = null))
-        println("it.data.toString()")
+        emit(ResponseStatusCallbacks.success(fireBaseService.getSourceLocations().documents.mapNotNull {
+            it.toObject(UserLocation::class.java)
+        }))
+    }.catch {
+        emit(ResponseStatusCallbacks.error(data = null, message = "Something went wrong!"))
+    }
+
+    suspend fun getDrivers(): Flow<ResponseStatusCallbacks<List<UserLocation>>> = flow {
+        emit(ResponseStatusCallbacks.loading(data = null))
         emit(ResponseStatusCallbacks.success(fireBaseService.getSourceLocations().documents.mapNotNull {
             it.toObject(UserLocation::class.java)
         }))

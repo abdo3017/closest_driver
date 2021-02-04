@@ -11,7 +11,6 @@ import com.example.driverapp.R
 import com.example.driverapp.databinding.ActivitySearchBinding
 import com.example.driverapp.datasource.models.PlaceAutoCompleteResponse
 import com.example.driverapp.datasource.models.UserLocation
-import com.example.driverapp.ui.SearchViewModel
 import com.example.driverapp.ui.base.BaseActivity
 import com.example.driverapp.ui.base.ItemClickListener
 import com.example.driverapp.utils.ResponseStatus
@@ -58,19 +57,23 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString().isNotEmpty()) {
-                    searchSourceAdapter.filter.filter(s.toString())
-                } else {
-                    getViewDataBinding().rvSourceLocations.visibility = View.GONE
-                }
+                getViewDataBinding().rvSourceLocations.visibility = View.VISIBLE
+                getViewDataBinding().rvDestinationLocations.visibility = View.GONE
+                searchSourceAdapter.filter.filter(s.toString())
             }
         })
         getViewDataBinding().etDestinationLocation.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString().length > 3) {
+                getViewDataBinding().rvDestinationLocations.visibility = View.VISIBLE
+                getViewDataBinding().rvSourceLocations.visibility = View.GONE
+                if (s.toString().length > 9) {
+                    getViewDataBinding().rvDestinationLocations.visibility = View.VISIBLE
+                    Log.d("trtrtrtrt", "woooooooo")
                     getPlacesFromAutocomplete(s.toString())
+                    searchDestinationAdapter.searchString = s.toString()
+
                 } else {
                     getViewDataBinding().rvDestinationLocations.visibility = View.GONE
                 }
@@ -78,12 +81,17 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         })
         getViewDataBinding().etDestinationLocation.setOnClickListener {
             getViewDataBinding().rvDestinationLocations.visibility = View.VISIBLE
-
+            getViewDataBinding().rvSourceLocations.visibility = View.GONE
         }
         getViewDataBinding().etSourceLocation.setOnClickListener {
             getViewDataBinding().rvSourceLocations.visibility = View.VISIBLE
-
+            getViewDataBinding().rvDestinationLocations.visibility = View.GONE
         }
+        getViewDataBinding().imgBack.setOnClickListener {
+            overridePendingTransition(0, 0)
+            finish()
+        }
+
         getViewDataBinding().rvDestinationLocations.adapter = searchDestinationAdapter
         getViewDataBinding().rvSourceLocations.adapter = searchSourceAdapter
 
@@ -103,6 +111,8 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
             it?.let {
                 when (it.status) {
                     ResponseStatus.SUCCESS -> {
+                        Log.d("trtrtrtrt", "woooooooo")
+
                         getViewDataBinding().rvDestinationLocations.visibility = View.VISIBLE
                         searchDestinationAdapter.items =
                             it.data?.predictions as ArrayList<PlaceAutoCompleteResponse.Prediction>
@@ -136,7 +146,15 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
     private fun clickSourceListener() = ItemClickListener { position: Int, view: View ->
         val intent = Intent()
+        val x = searchSourceAdapter.getItem(position)
+        x.latitude = "30.1279"
+        x.longitude = "31.3300"
+        Log.d("trtrtrtrt", x.toString())
+        val bundle = Bundle()
+        bundle.putParcelable("sourceLocation", x)
+        intent.putExtras(bundle)
         setResult(RESULT_CANCELED, intent)
+        overridePendingTransition(0, 0)
         finish()
     }
 
@@ -144,6 +162,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         val intent = Intent()
         intent.putExtra("placeId", searchDestinationAdapter.getItem(position).placeId)
         setResult(RESULT_OK, intent)
+        overridePendingTransition(0, 0)
         finish()
     }
 }

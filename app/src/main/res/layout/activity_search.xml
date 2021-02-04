@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
 
@@ -29,13 +30,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="@dimen/_34sdp"
+                android:layout_height="@dimen/_34sdp"
+                android:layout_gravity="start"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:background="@drawable/circle_1"
+                android:src="@drawable/ic_back"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_back" />
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilSourceLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:hint="Your Location"
                 android:textColorHint="#9E9E9E"
@@ -93,6 +108,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDestinationLocations"
             android:layout_width="match_parent"
+            android:background="@color/white"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:clipToPadding="false"
@@ -113,6 +129,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
+            android:background="@color/white"
+
             android:clipToPadding="false"
             android:nestedScrollingEnabled="false"
             android:orientation="vertical"

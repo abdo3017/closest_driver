@@ -23,7 +23,7 @@ interface APIService {
         @Query("components") component: String = PLACE_AUTOCOMPLETE_COMPONENT,
         @Query("radius") radius: String = PLACE_AUTOCOMPLETE_RADIUS,
         @Query("key") googleMapApiKey: String = API_KEY
-    ): Deferred<PlaceAutoCompleteResponse>
+    ): PlaceAutoCompleteResponse
 
     @Headers(HEADER_ACCEPT_ENCODING)
     @GET(GOOGLE_PLACE_DETAILS)

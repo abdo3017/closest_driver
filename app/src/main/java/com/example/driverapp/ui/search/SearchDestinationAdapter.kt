@@ -1,7 +1,12 @@
 package com.example.driverapp.ui.search
 
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import com.example.driverapp.databinding.ItemDestinationListBinding
 import com.example.driverapp.datasource.models.PlaceAutoCompleteResponse
@@ -17,7 +22,7 @@ class SearchDestinationAdapter(
     BaseRecyclerViewAdapter<PlaceAutoCompleteResponse.Prediction, ItemDestinationListBinding>(
         mutableListOf()
     ) {
-
+    var searchString = ""
     var items: ArrayList<PlaceAutoCompleteResponse.Prediction> = ArrayList()
         set(value) {
             field = value
@@ -57,6 +62,16 @@ class SearchDestinationAdapter(
             binding.item = itemsFiltered[position]
             binding.position = position
             binding.listener = itemClickListener
+            if (searchString.isNotEmpty()) {
+                val span: Spannable = SpannableString(getItem(position).description)
+                span.setSpan(
+                    ForegroundColorSpan(Color.BLACK),
+                    0,
+                    searchString.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                binding.tvName.setText(span, TextView.BufferType.SPANNABLE)
+            }
             binding.executePendingBindings()
         }
 
