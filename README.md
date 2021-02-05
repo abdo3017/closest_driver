@@ -1,2 +1,2 @@
 # closest_driver
-driver app
+using google maps API and Google places API , firebase dagger hilt , repo pattern , coroutines, clean architecture
