@@ -15,13 +15,13 @@ constructor(
     suspend fun getAutoCompletePlaces(
         input: String
     ): PlaceAutoCompleteResponse = withContext(IO) {
-        apiService.getAutoCompletePlacesAsync(input = input)//.await()
+        apiService.getAutoCompletePlacesAsync(input = input)
     }
 
     suspend fun getPlaceDetails(
         placeId: String
     ): PlaceDetailsResponse = withContext(IO) {
-        apiService.getPlaceDetailsAsync(placeID = placeId).await()
+        apiService.getPlaceDetailsAsync(placeID = placeId)
     }
 
 }

@@ -12,8 +12,11 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.driverapp.R
 import com.example.driverapp.databinding.ActivityMainBinding
@@ -42,14 +45,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnMapReadyCallback {
     private lateinit var viewModel: MapViewModel
     private lateinit var mGoogleMap: GoogleMap
     private lateinit var geocoder: Geocoder
+    private lateinit var sourceLocation: UserLocation
+    private lateinit var destinationLocation: UserLocation
+
     private var latitudeSource: Double? = -1.0
     private var longitudeSource: Double? = -1.0
     private var latitudeDestination: Double? = -1.0
     private var longitudeDestination: Double? = -1.0
     private lateinit var city: String
     private lateinit var address: String
+    private lateinit var destinationName: String
     private var changeLocation = false
     private lateinit var drivers: List<UserLocation>
+    private var filteredDrivers: MutableList<UserLocation> = mutableListOf()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,11 +76,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnMapReadyCallback {
         mapView.onCreate(savedInstanceState)
         MapsInitializer.initialize(this)
         mapView.getMapAsync(this)
+        getViewDataBinding().drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
         getViewDataBinding().etDestinationLocation.isFocusableInTouchMode = false
         getViewDataBinding().etSourceLocation.isFocusableInTouchMode = false
         getViewDataBinding().btnRequest.setOnClickListener {
             getClosestDrivers()
+        }
+        getViewDataBinding().imgHamburger.setOnClickListener {
+            getViewDataBinding().drawerLayout.openDrawer(GravityCompat.START)
         }
         getViewDataBinding().listener = object : PlacesListeners {
             override fun onTapGoToPlacesScreen(view: View) {
@@ -94,14 +106,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnMapReadyCallback {
         locDestination.longitude = longitudeDestination!!
 
         val distanceInMeters = locSource.distanceTo(locDestination)
-
         val loc = Location("")
-        drivers.filter {
+        drivers.forEach {
             loc.latitude = it.latitude!!.toDouble()
             loc.longitude = it.longitude!!.toDouble()
-            locSource.distanceTo(loc) >= distanceInMeters / 2
+            if (locSource.distanceTo(loc) <= distanceInMeters / 2) {
+                filteredDrivers.add(it)
+                Log.d("filteredDrivers", it.toString())
+                Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+                print(it)
+            }
         }
-        drivers.forEach { println(it) }
     }
 
     override fun getLayoutId(): Int {
@@ -119,14 +134,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnMapReadyCallback {
                     ResponseStatus.SUCCESS -> {
                         if (it.data != null) {
                             val location = it.data.result?.geometry?.location
-                            animateCamera(location?.lat, location?.lng, it.data.result?.name!!)
+                            destinationLocation = UserLocation(
+                                latitude = it.data.result?.geometry?.location!!.lat.toString(),
+                                longitude = it.data.result.geometry?.location!!.lng.toString(),
+                                name = destinationName
+                            )
+                            latitudeDestination = destinationLocation.latitude!!.toDouble()
+                            longitudeDestination = destinationLocation.longitude!!.toDouble()
+                            animateCamera(location?.lat, location?.lng, it.data.result.name!!)
                             if (latitudeDestination != -1.0 && latitudeSource != -1.0 && longitudeDestination != -1.0 && longitudeSource != -1.0) {
                                 drawLine()
                             }
                         }
                     }
                     ResponseStatus.LOADING -> {
-                        Log.d("trtrtrtrt", "heheheheheheh")
                     }
                     ResponseStatus.ERROR -> {
 
@@ -140,7 +161,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnMapReadyCallback {
                     ResponseStatus.ERROR -> {
                     }
                     ResponseStatus.LOADING -> {
-                        Log.d("trtrtrtrt", "heheheheheheh")
                     }
                     ResponseStatus.SUCCESS -> {
                         drivers = it.data as ArrayList<UserLocation>
@@ -235,19 +255,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnMapReadyCallback {
             if (requestCode == 1) {
                 if (data != null && data.extras != null && data.extras!!.containsKey("placeId")) {
                     val placeId = data.getStringExtra("placeId")
+                    destinationName = data.getStringExtra("description")!!
+                    getViewDataBinding().etDestinationLocation.setText(destinationName)
                     getPlaceDetails(placeId!!)
                 }
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 1) {
                 if (data != null && data.extras != null && data.extras!!.containsKey("sourceLocation")) {
-
-                    val location: UserLocation =
+                    sourceLocation =
                         (data.extras!!.getParcelable("sourceLocation") as UserLocation?)!!
+                    getViewDataBinding().etSourceLocation.setText(sourceLocation.name)
+                    latitudeSource = sourceLocation.latitude!!.toDouble()
+                    longitudeSource = sourceLocation.longitude!!.toDouble()
+
                     animateCamera(
-                        location.latitude!!.toDouble(),
-                        location.longitude!!.toDouble(),
-                        location.name!!
+                        sourceLocation.latitude!!.toDouble(),
+                        sourceLocation.longitude!!.toDouble(),
+                        sourceLocation.name!!
                     )
                     if (latitudeDestination != -1.0 && latitudeSource != -1.0 && longitudeDestination != -1.0 && longitudeSource != -1.0) {
                         drawLine()

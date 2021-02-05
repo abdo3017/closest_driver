@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -78,11 +77,7 @@ class SearchSourceAdapter(
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            //getItems().clear()
-            Log.d("trtrtrtrt", (results!!.values as List<UserLocation>).size.toString())
-            setItems(results.values as List<UserLocation>)
-//            getItems().addAll(results!!.values as List<UserLocation>)
-//            notifyDataSetChanged()
+            setItems(results!!.values as List<UserLocation>)
         }
 
     }

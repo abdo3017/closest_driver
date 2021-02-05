@@ -30,7 +30,7 @@ constructor(
     suspend fun getPlaceDetails(placeId: String): Flow<ResponseStatusCallbacks<PlaceDetailsResponse>> =
         flow {
             emit(ResponseStatusCallbacks.loading(data = null))
-            Log.d("trtrtrtrt", "woooooooo22")
+            Log.d("trtrtrtrt", placeId)
             emit(ResponseStatusCallbacks.success(apiServiceImpl.getPlaceDetails(placeId)))
         }.catch {
             emit(ResponseStatusCallbacks.error(data = null, message = "Something went wrong!"))

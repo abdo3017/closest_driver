@@ -8,7 +8,6 @@ import com.example.driverapp.utils.Constants.GOOGLE_PLACE_DETAILS
 import com.example.driverapp.utils.Constants.HEADER_ACCEPT_ENCODING
 import com.example.driverapp.utils.Constants.PLACE_AUTOCOMPLETE_COMPONENT
 import com.example.driverapp.utils.Constants.PLACE_AUTOCOMPLETE_RADIUS
-import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -16,6 +15,9 @@ import retrofit2.http.Query
 
 interface APIService {
 
+    /**
+     * get places by query
+     */
     @Headers(HEADER_ACCEPT_ENCODING)
     @GET(GOOGLE_PLACE_AUTOCOMPLETE)
     suspend fun getAutoCompletePlacesAsync(
@@ -25,11 +27,14 @@ interface APIService {
         @Query("key") googleMapApiKey: String = API_KEY
     ): PlaceAutoCompleteResponse
 
+    /**
+     * get place's details
+     */
     @Headers(HEADER_ACCEPT_ENCODING)
     @GET(GOOGLE_PLACE_DETAILS)
     suspend fun getPlaceDetailsAsync(
         @Query("place_id") placeID: String?,
         @Query("key") key: String = API_KEY
-    ): Deferred<PlaceDetailsResponse>
+    ): PlaceDetailsResponse
 
 }

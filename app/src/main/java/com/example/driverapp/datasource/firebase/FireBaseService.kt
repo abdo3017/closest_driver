@@ -12,12 +12,17 @@ class FireBaseService
 constructor(
     private val firestoreDB: FirebaseFirestore
 ) {
-
+    /**
+     * get source location from fire store at collection with name" Source"
+     */
     suspend fun getSourceLocations(): QuerySnapshot =
         withContext(Dispatchers.IO) {
             firestoreDB.collection("Source").get().await()
         }
 
+    /**
+     * get source location from fire store at collection with name" Source"
+     */
     suspend fun getDrivers(): QuerySnapshot =
         withContext(Dispatchers.IO) {
             firestoreDB.collection("Drivers").get().await()

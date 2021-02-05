@@ -13,137 +13,168 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
+    <androidx.drawerlayout.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
 
-
-        <LinearLayout
-            android:id="@+id/cardView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <com.google.android.gms.maps.MapView
-                    android:id="@+id/mapView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:apiKey="@string/google_api_key"
-                    android:clickable="true"
-                    android:enabled="true" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/rounded_1"
-                    android:focusable="false"
-                    android:gravity="center"
-                    android:orientation="vertical">
+            android:layout_height="match_parent">
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilSourceLocation"
+            <LinearLayout
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/mapView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_12sdp"
-                        android:layout_marginEnd="@dimen/_15sdp"
-                        android:hint="Your Location"
-                        android:textColorHint="#9E9E9E"
-                        app:boxStrokeWidth="0dp"
-                        app:boxStrokeWidthFocused="0dp"
-                        app:errorEnabled="true"
-                        app:hintAnimationEnabled="true"
-                        app:layout_constraintBottom_toTopOf="@+id/tilPassword"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_welcome_to_sia">
+                        android:layout_height="match_parent"
+                        android:apiKey="@string/google_api_key"
+                        android:clickable="true"
+                        android:enabled="true" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etSourceLocation"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/rounded_1"
+                        android:focusable="false"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imgHamburger"
+                            android:layout_width="@dimen/_26sdp"
+                            android:layout_height="@dimen/_26sdp"
+                            android:layout_gravity="start"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:background="@drawable/circle_1"
+                            android:padding="@dimen/_4sdp"
+                            android:src="@drawable/ic_hamburger"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:src="@drawable/ic_hamburger" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilSourceLocation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/round_edittext"
-                            android:inputType="textEmailAddress"
-                            android:maxLines="1"
-                            android:onClick="@{(thisView) -> listener.onTapGoToPlacesScreen(thisView)}"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_10ssp" />
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_6sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:hint="Your Location"
+                            android:textColorHint="#9E9E9E"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:errorEnabled="true"
+                            app:hintAnimationEnabled="true"
+                            app:layout_constraintBottom_toTopOf="@+id/tilPassword"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_welcome_to_sia">
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etSourceLocation"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/round_edittext"
+                                android:inputType="textEmailAddress"
+                                android:maxLines="1"
+                                android:onClick="@{(thisView) -> listener.onTapGoToPlacesScreen(thisView)}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilDestinationLocation"
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilDestinationLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:hint="Destination"
+                            android:textColorHint="#9E9E9E"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:errorEnabled="true"
+                            app:hintAnimationEnabled="true"
+                            app:layout_constraintBottom_toTopOf="@+id/tilPassword"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_welcome_to_sia">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etDestinationLocation"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/round_edittext"
+                                android:inputType="textEmailAddress"
+
+                                android:maxLines="1"
+                                android:onClick="@{(thisView) -> listener.onTapGoToPlacesScreen(thisView)}"
+
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnRequest"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_15sdp"
-                        android:layout_marginEnd="@dimen/_15sdp"
-                        android:hint="Destination"
-                        android:textColorHint="#9E9E9E"
-                        app:boxStrokeWidth="0dp"
-                        app:boxStrokeWidthFocused="0dp"
-                        app:errorEnabled="true"
-                        app:hintAnimationEnabled="true"
-                        app:layout_constraintBottom_toTopOf="@+id/tilPassword"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="48dp"
+                        android:layout_marginEnd="48dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="@drawable/rounded_2"
+                        android:padding="@dimen/_7sdp"
+                        android:text="REQUEST RD"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_13ssp"
+                        android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_welcome_to_sia">
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etDestinationLocation"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/round_edittext"
-                            android:inputType="textEmailAddress"
+                </RelativeLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                            android:maxLines="1"
-                            android:onClick="@{(thisView) -> listener.onTapGoToPlacesScreen(thisView)}"
-
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_10ssp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnRequest"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginEnd="48dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/rounded_2"
-                    android:padding="@dimen/_7sdp"
-                    android:text="REQUEST RD"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_13ssp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </RelativeLayout>
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header_main"
+            app:menu="@menu/activity_main_drawer" />
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

@@ -28,7 +28,7 @@ constructor(
 
     suspend fun getDrivers(): Flow<ResponseStatusCallbacks<List<UserLocation>>> = flow {
         emit(ResponseStatusCallbacks.loading(data = null))
-        emit(ResponseStatusCallbacks.success(fireBaseService.getSourceLocations().documents.mapNotNull {
+        emit(ResponseStatusCallbacks.success(fireBaseService.getDrivers().documents.mapNotNull {
             it.toObject(UserLocation::class.java)
         }))
     }.catch {
