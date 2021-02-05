@@ -12,6 +12,7 @@ object Constants {
     const val PLACE_AUTOCOMPLETE_RADIUS = "3500"
     val API_KEY = MyApplication.instance!!.resources.getString(R.string.google_maps_key)
     const val PLACE_AUTOCOMPLETE_COMPONENT = "country:eg"
+    const val SEARCH_TIME_DELAY = 500L
 
 
 }

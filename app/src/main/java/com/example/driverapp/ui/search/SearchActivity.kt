@@ -12,10 +12,10 @@ import com.example.driverapp.datasource.models.PlaceAutoCompleteResponse
 import com.example.driverapp.datasource.models.UserLocation
 import com.example.driverapp.ui.base.BaseActivity
 import com.example.driverapp.ui.base.ItemClickListener
+import com.example.driverapp.utils.Constants.SEARCH_TIME_DELAY
 import com.example.driverapp.utils.ResponseStatus
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.*
 
 @InternalCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -61,17 +61,24 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
                 searchSourceAdapter.filter.filter(s.toString())
             }
         })
+        var job: Job? = null
+
         getViewDataBinding().etDestinationLocation.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                getViewDataBinding().rvSourceLocations.visibility = View.GONE
-                if (s.toString().length > 3) {
-                    getViewDataBinding().rvDestinationLocations.visibility = View.VISIBLE
-                    getPlacesFromAutocomplete(s.toString())
-                    searchDestinationAdapter.searchString = s.toString()
-                } else {
-                    getViewDataBinding().rvDestinationLocations.visibility = View.GONE
+                //to limit many requests
+                job?.cancel()
+                job = MainScope().launch {
+                    delay(SEARCH_TIME_DELAY)
+                    getViewDataBinding().rvSourceLocations.visibility = View.GONE
+                    if (s.toString().length > 3) {
+                        getViewDataBinding().rvDestinationLocations.visibility = View.VISIBLE
+                        getPlacesFromAutocomplete(s.toString())
+                        searchDestinationAdapter.searchString = s.toString()
+                    } else {
+                        getViewDataBinding().rvDestinationLocations.visibility = View.GONE
+                    }
                 }
             }
         })
